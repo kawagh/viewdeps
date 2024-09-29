@@ -31,6 +31,10 @@ function updateLayout(direction: 'TB' | 'LR') {
     <div>
       <button @click="updateLayout('LR')">layout graph Left to Right</button>
       <button @click="updateLayout('TB')">layout graph Top to Bottom</button>
+      <div>
+        <button @click="graphInstance?.fitToContents">Fit contents</button>
+        <button @click="graphInstance?.panToCenter">To center</button>
+      </div>
     </div>
     <input type="file" @change="onSelectedFile" />
     <v-network-graph

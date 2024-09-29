@@ -22,10 +22,21 @@ const layouts: vNG.Layouts = {
         node4: { x: 150, y: 50 },
     },
 }
+
+const configs: vNG.Config = vNG.defineConfigs({
+    edge: {
+        marker: {
+            target: {
+                type: "arrow"
+            }
+        }
+    }
+
+})
 </script>
 
 <template>
-    <v-network-graph class="graph" :nodes="nodes" :edges="edges" :layouts=layouts />
+    <v-network-graph class="graph" :nodes="nodes" :edges="edges" :layouts=layouts :configs=configs />
 </template>
 
 <style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GraphView from './components/GraphView.vue';
+import GraphView from './components/GraphView.vue'
 </script>
 
 <template>

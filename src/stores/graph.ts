@@ -6,18 +6,18 @@ import * as vNG from 'v-network-graph'
 import dagre from 'dagre/dist/dagre.min.js'
 
 export const useGraphStore = defineStore('graph', () => {
-  const nodes: vNG.Nodes = {
+  const nodes: vNG.Nodes = reactive({
     node1: { name: 'Node 1' },
     node2: { name: 'Node 2' },
     node3: { name: 'Node 3' },
     node4: { name: 'Node 4' }
-  }
+  })
 
-  const edges: vNG.Edges = {
+  const edges: vNG.Edges = reactive({
     edge1: { source: 'node1', target: 'node2' },
     edge2: { source: 'node2', target: 'node3' },
     edge3: { source: 'node3', target: 'node4' }
-  }
+  })
   const layouts: vNG.Layouts = reactive({
     nodes: {}
   })
@@ -31,6 +31,22 @@ export const useGraphStore = defineStore('graph', () => {
       }
     }
   })
+
+  const clearGraph = () => {
+    Object.keys(edges).forEach((it) => {
+      delete edges[it]
+    })
+    Object.keys(nodes).forEach((it) => {
+      delete nodes[it]
+    })
+  }
+
+  const loadGraph = () => {
+    clearGraph()
+    nodes['node1'] = { name: 'new1' }
+    nodes['node2'] = { name: 'new2' }
+    edges['edge1'] = { source: 'node1', target: 'node2' }
+  }
 
   function layout(direction: 'TB' | 'LR') {
     const nodeSize = 40
@@ -69,5 +85,5 @@ export const useGraphStore = defineStore('graph', () => {
     })
   }
 
-  return { nodes, edges, layouts, configs, layout }
+  return { nodes, edges, layouts, configs, loadGraph, layout }
 })

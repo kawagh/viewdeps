@@ -6,6 +6,16 @@ import { useGraphStore } from '@/stores/graph'
 
 const graphStore = useGraphStore()
 const graphInstance = ref<vNG.VNetworkGraphInstance>()
+const onSelectedFile = (it: any) => {
+  const file: File = it.target.files[0]
+  const reader = new FileReader()
+  reader.onload = () => {
+    if (reader.result) {
+      graphStore.loadGraph(reader.result!.toString())
+    }
+  }
+  reader.readAsText(file)
+}
 
 function updateLayout(direction: 'TB' | 'LR') {
   // Animates the movement of an element.
@@ -22,8 +32,7 @@ function updateLayout(direction: 'TB' | 'LR') {
       <button @click="updateLayout('LR')">layout graph Left to Right</button>
       <button @click="updateLayout('TB')">layout graph Top to Bottom</button>
     </div>
-    <button @click="graphStore.loadGraph">load graph</button>
-
+    <input type="file" @change="onSelectedFile" />
     <v-network-graph
       ref="graphInstance"
       class="graph"

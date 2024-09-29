@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
+import { parse } from '@/utils/graph_text_parser'
 
 import * as vNG from 'v-network-graph'
 //@ts-ignore
@@ -41,11 +42,16 @@ export const useGraphStore = defineStore('graph', () => {
     })
   }
 
-  const loadGraph = () => {
+  const loadGraph = (graphText: string) => {
     clearGraph()
-    nodes['node1'] = { name: 'new1' }
-    nodes['node2'] = { name: 'new2' }
-    edges['edge1'] = { source: 'node1', target: 'node2' }
+    const result = parse(graphText)
+    Object.entries(result.nodes).forEach(([k, v]) => {
+      // TODO(future) assign id to avoid name collision between nodes
+      nodes[v.name!] = v
+    })
+    Object.entries(result.edges).forEach(([k, v]) => {
+      edges[k] = { source: v.source, target: v.target }
+    })
   }
 
   function layout(direction: 'TB' | 'LR') {
